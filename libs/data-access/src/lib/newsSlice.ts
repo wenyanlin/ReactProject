@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isPending, isRejected } from '@reduxjs/toolkit';
 import { Article, Category } from './newsTypes';
 import { fetchArticlesByCategory, fetchCategories } from './newsApi';
 
@@ -54,25 +54,11 @@ export const newsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // initData
-      .addCase(initData.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
       .addCase(initData.fulfilled, (state, action) => {
         state.categories = action.payload.categories;
         state.activeCategoryId = action.payload.activeCategoryId;
         state.articles = action.payload.articles;
         state.isLoading = false;
-      })
-      .addCase(initData.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
-      })
-      // setActiveCategory
-      .addCase(setActiveCategory.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
       })
       .addCase(setActiveCategory.fulfilled, (state, action) => {
         if (action.payload) {
@@ -81,7 +67,11 @@ export const newsSlice = createSlice({
         }
         state.isLoading = false;
       })
-      .addCase(setActiveCategory.rejected, (state, action) => {
+      .addMatcher(isPending(initData, setActiveCategory), (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addMatcher(isRejected(initData, setActiveCategory), (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });
