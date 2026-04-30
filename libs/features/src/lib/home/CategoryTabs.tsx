@@ -1,11 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch, setActiveCategory } from '@org/data-access';
+import { useSelector } from 'react-redux';
+import { RootState } from '@org/data-access';
 import { TabItem } from './TabItem';
+import { useNavigate } from 'react-router-dom';
 
 export function CategoryTabs() {
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { categories, activeCategoryId } = useSelector(
-    (state: RootState) => state.news
+    (state: RootState) => state.news,
   );
 
   return (
@@ -16,7 +17,7 @@ export function CategoryTabs() {
             key={category.id}
             label={category.name}
             isActive={category.id === activeCategoryId}
-            onClick={() => dispatch(setActiveCategory(category.id))}
+            onClick={() => navigate(`/${category.id}`)}
           />
         ))}
       </div>

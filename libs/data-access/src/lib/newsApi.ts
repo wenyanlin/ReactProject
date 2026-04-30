@@ -1,5 +1,10 @@
-import { mockCategories, mockArticles, mockComments } from './newsMocks';
-import { Article, Category, Comment } from './newsTypes';
+import {
+  mockCategories,
+  mockArticles,
+  mockComments,
+  mockArticleDetails,
+} from './newsMocks';
+import { Article, Category, Comment, ArticleDetail } from './newsTypes';
 
 const DELAY = 500;
 
@@ -22,6 +27,17 @@ export const fetchArticlesByCategory = (
         (article) => article.categoryId === categoryId,
       );
       resolve(filteredArticles);
+    }, DELAY);
+  });
+};
+
+export const fetchArticleById = (
+  articleId: string,
+): Promise<ArticleDetail | undefined> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const detail = mockArticleDetails.find((a) => a.id === articleId);
+      resolve(detail);
     }, DELAY);
   });
 };

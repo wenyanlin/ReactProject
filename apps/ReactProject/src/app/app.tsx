@@ -9,7 +9,7 @@ export default function App() {
   return (
     <>
       {/* <header></header> */}
-      <main className="max-w-screen-md mx-auto">
+      <main className="max-w-screen-md mx-auto bg-neutral-50">
         <Outlet />
       </main>
       {/* <footer></footer> */}

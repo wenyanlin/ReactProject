@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { initData, store } from '@org/data-access';
+import { loadCategories, store } from '@org/data-access';
 
 import './styles.css';
 import App from './app/app';
@@ -12,14 +12,15 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    // 買完票才上車
+    loader: async () => {
+      await store.dispatch(loadCategories());
+      return null;
+    },
     children: [
       {
-        path: '/',
+        path: '/:categoryId?',
         element: <HomePage />,
-        loader: async () => {
-          await store.dispatch(initData());
-          return null;
-        },
       },
       {
         path: '/article/:id',

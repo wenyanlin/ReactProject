@@ -1,21 +1,27 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch, initData } from '@org/data-access';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, loadActiveCategory, RootState } from '@org/data-access';
 import { ArticleCard } from '../shared/ArticleCard.tsx';
 import { CategoryTabs } from '../home/CategoryTabs';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export function HomePage() {
+  const { categoryId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
-  const { articles, isLoading, error } = useSelector(
+  const { articles, categories, isLoading, error } = useSelector(
     (state: RootState) => state.news,
   );
 
   useEffect(() => {
-    dispatch(initData());
-  }, [dispatch]);
+    if (categoryId) {
+      dispatch(loadActiveCategory(categoryId));
+    } else if (categories.length > 0) {
+      dispatch(loadActiveCategory(categories[0].id));
+    }
+  }, [dispatch, categoryId, categories]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-50">
+    <div className="flex flex-col min-h-screen">
       <CategoryTabs />
       <div className="flex-1">
         {error && <div className="p-4 text-red-500 text-center">{error}</div>}
