@@ -3,3 +3,4 @@ export * from './lib/newsTypes';
 export * from './lib/newsMocks';
 export * from './lib/newsSlice';
 export * from './lib/store';
+export * from './lib/dateUtils';

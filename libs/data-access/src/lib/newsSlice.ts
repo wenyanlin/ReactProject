@@ -31,21 +31,21 @@ const initialState: NewsState = {
   error: null,
 };
 
-export const loadArticleList = createAsyncThunk(
-  'news/loadArticleList',
-  async (_, { rejectWithValue }) => {
-    try {
-      const categories = await fetchCategories();
-      const firstCategoryId = categories[0].id;
-      const articles = await fetchArticlesByCategory(firstCategoryId);
-      return { categories, activeCategoryId: firstCategoryId, articles };
-    } catch (err) {
-      return rejectWithValue(
-        err instanceof Error ? err.message : '發生未知錯誤',
-      );
-    }
-  },
-);
+// export const loadArticleList = createAsyncThunk(
+//   'news/loadArticleList',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const categories = await fetchCategories();
+//       const firstCategoryId = categories[0].id;
+//       const articles = await fetchArticlesByCategory(firstCategoryId);
+//       return { categories, activeCategoryId: firstCategoryId, articles };
+//     } catch (err) {
+//       return rejectWithValue(
+//         err instanceof Error ? err.message : '發生未知錯誤',
+//       );
+//     }
+//   },
+// );
 
 export const loadCategories = createAsyncThunk(
   'news/loadCategories',
@@ -61,8 +61,8 @@ export const loadCategories = createAsyncThunk(
   },
 );
 
-export const loadActiveCategory = createAsyncThunk(
-  'news/loadActiveCategory',
+export const loadArticlesByCategory = createAsyncThunk(
+  'news/loadArticlesByCategory',
   async (categoryId: string, { getState, rejectWithValue }) => {
     const state = (getState() as { news: NewsState }).news;
     if (state.activeCategoryId === categoryId) {
@@ -96,18 +96,15 @@ export const loadArticle = createAsyncThunk(
 export const newsSlice = createSlice({
   name: 'news',
   initialState,
-  reducers: {},
+  reducers: {
+    clearArticleDetail: (state) => {
+      state.articleDetail = null;
+      state.comments = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(loadArticleList.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.categories = action.payload.categories;
-          state.activeCategoryId = action.payload.activeCategoryId;
-          state.articles = action.payload.articles;
-        }
-        state.isLoading = false;
-      })
-      .addCase(loadActiveCategory.fulfilled, (state, action) => {
+      .addCase(loadArticlesByCategory.fulfilled, (state, action) => {
         if (action.payload) {
           state.activeCategoryId = action.payload.categoryId;
           state.articles = action.payload.articles;
@@ -123,25 +120,19 @@ export const newsSlice = createSlice({
       .addCase(loadCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
       })
+      .addCase(loadArticle.pending, (state) => {
+        state.articleDetail = null;
+        state.comments = [];
+      })
       .addMatcher(
-        isPending(
-          loadArticleList,
-          loadActiveCategory,
-          loadArticle,
-          loadCategories,
-        ),
+        isPending(loadArticlesByCategory, loadArticle, loadCategories),
         (state) => {
           state.isLoading = true;
           state.error = null;
         },
       )
       .addMatcher(
-        isRejected(
-          loadArticleList,
-          loadActiveCategory,
-          loadArticle,
-          loadCategories,
-        ),
+        isRejected(loadArticlesByCategory, loadArticle, loadCategories),
         (state, action) => {
           state.isLoading = false;
           state.error = action.payload as string;
@@ -150,4 +141,5 @@ export const newsSlice = createSlice({
   },
 });
 
+export const { clearArticleDetail } = newsSlice.actions;
 export default newsSlice.reducer;

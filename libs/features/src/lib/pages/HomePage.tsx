@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, loadActiveCategory, RootState } from '@org/data-access';
+import { AppDispatch, loadArticlesByCategory, RootState } from '@org/data-access';
 import { ArticleCard } from '../shared/ArticleCard.tsx';
 import { CategoryTabs } from '../home/CategoryTabs';
 import { useParams } from 'react-router-dom';
@@ -14,9 +14,9 @@ export function HomePage() {
 
   useEffect(() => {
     if (categoryId) {
-      dispatch(loadActiveCategory(categoryId));
+      dispatch(loadArticlesByCategory(categoryId));
     } else if (categories.length > 0) {
-      dispatch(loadActiveCategory(categories[0].id));
+      dispatch(loadArticlesByCategory(categories[0].id));
     }
   }, [dispatch, categoryId, categories]);
 

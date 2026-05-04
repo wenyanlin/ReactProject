@@ -5,13 +5,15 @@ import {
   RootState,
   loadArticle,
   AppDispatch,
-  loadActiveCategory,
+  clearArticleDetail,
 } from '@org/data-access';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { ArticleTags } from '../article/ArticleTags';
 
 export function ArticlePage() {
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const { articleDetail, categories, isLoading, error } = useSelector(
     (state: RootState) => state.news,
@@ -21,11 +23,14 @@ export function ArticlePage() {
     (cat) => cat.id === articleDetail?.categoryId,
   );
 
-  // 先上車後補票
   useEffect(() => {
     if (id) {
       dispatch(loadArticle(id));
     }
+
+    return () => {
+      dispatch(clearArticleDetail());
+    };
   }, [dispatch, id]);
 
   return (
@@ -47,10 +52,21 @@ export function ArticlePage() {
       ) : articleDetail ? (
         <>
           <ArticleHeader data={articleDetail} />
+          {articleDetail.imageUrl && (
+            <div className="w-full h-96 bg-neutral-100 overflow-hidden">
+              <img
+                src={articleDetail.imageUrl}
+                alt={articleDetail.title}
+                onLoad={() => setIsImageLoaded(true)}
+                className={`w-full h-full object-cover transition-opacity duration-300 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              />
+            </div>
+          )}
           <div
             className="p-4"
             dangerouslySetInnerHTML={{ __html: articleDetail?.content }}
           />
+          <ArticleTags tags={articleDetail?.tags || []} />
         </>
       ) : (
         <div className="p-8 text-center text-neutral-500">目前沒有相關新聞</div>

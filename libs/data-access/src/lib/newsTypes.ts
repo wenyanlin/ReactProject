@@ -13,6 +13,7 @@ export interface Article {
   title: string;
   publisher: string;
   publishTime: string;
+  updateTime?: string; // 新增更新時間
   imageUrl: string;
   commentCount: number;
 }

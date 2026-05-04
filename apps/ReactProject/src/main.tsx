@@ -12,7 +12,6 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    // 買完票才上車
     loader: async () => {
       await store.dispatch(loadCategories());
       return null;
