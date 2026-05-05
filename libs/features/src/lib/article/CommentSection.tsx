@@ -20,7 +20,7 @@ export function CommentSection() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = () => {
-    if (inputValue === '') {
+    if (inputValue.trim() === '') {
       alert('請輸入留言');
       return;
     }
