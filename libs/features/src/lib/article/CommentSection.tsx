@@ -38,7 +38,8 @@ export default function CommentPractice() {
   };
 
   const handleFocus = () => {
-    inputRef.focus();
+    // inputRef.focus();
+    inputRef.current?.focus();
   };
 
   const handleLike = (id: number) => {
