@@ -33,7 +33,8 @@ export default function CommentPractice() {
     comments.unshift(newComment);
     setComments(comments);
 
-    inputValue = '';
+    // inputValue = '';
+    setInputValue('');
   };
 
   const handleFocus = () => {
