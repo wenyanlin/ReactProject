@@ -5,6 +5,8 @@ type Comment = {
   id: number;
   content: string;
   likeCount: number;
+  dislikeCount: number;
+  userAction: 'like' | 'dislike' | null;
 };
 
 const MAX_LENGTH = 200;
@@ -14,6 +16,8 @@ const initialComments: Comment[] = [
     id: Date.now() - 10000, // 確保比新留言舊
     content: '這是第一則留言',
     likeCount: 0,
+    dislikeCount: 0,
+    userAction: null,
   },
 ];
 
@@ -37,6 +41,8 @@ export function CommentSection() {
       id: Date.now(),
       content: inputValue,
       likeCount: 0,
+      dislikeCount: 0,
+      userAction: null,
     };
 
     setComments((prev) => {
@@ -58,15 +64,54 @@ export function CommentSection() {
     inputRef.current?.focus();
   };
 
-  const handleLike = (id: number) => {
+  const handleInteraction = (id: number, action: 'like' | 'dislike') => {
     setComments((prev) =>
-      prev.map((comment) =>
-        comment.id === id
-          ? { ...comment, likeCount: comment.likeCount + 1 }
-          : comment,
-      ),
+      prev.map((comment) => {
+        if (comment.id !== id) return comment;
+
+        const { likeCount, dislikeCount, userAction } = comment;
+
+        // 取消已經點過的按鈕
+        if (userAction === action) {
+          return {
+            ...comment,
+            likeCount: action === 'like' ? likeCount - 1 : likeCount,
+            dislikeCount:
+              action === 'dislike' ? dislikeCount - 1 : dislikeCount,
+            userAction: null,
+          };
+        }
+
+        // 點讚或倒讚
+        return {
+          ...comment,
+          likeCount:
+            action === 'like'
+              ? likeCount + 1
+              : userAction === 'like'
+                ? likeCount - 1
+                : likeCount,
+          dislikeCount:
+            action === 'dislike'
+              ? dislikeCount + 1
+              : userAction === 'dislike'
+                ? dislikeCount - 1
+                : dislikeCount,
+          userAction: action,
+        };
+      }),
     );
   };
+
+//   const handleLike = (id: number) => {
+//     setComments((prev) =>
+//       prev.map((comment) =>
+//         comment.id === id
+//           ? { ...comment, likeCount: comment.likeCount + 1 }
+//           : comment,
+//       ),
+//     );
+//   };
 
   return (
     <section>
@@ -89,8 +134,34 @@ export function CommentSection() {
         {comments.map((comment) => (
           <li key={comment.id}>
             <p>{comment.content}</p>
-            <button onClick={() => handleLike(comment.id)}>
-              愛心 {comment.likeCount}
+            <button
+              onClick={() => handleInteraction(comment.id, 'like')}
+              style={{
+                fontWeight: comment.userAction === 'like' ? 'bold' : 'normal',
+              }}
+            >
+              {comment.userAction === 'like' ? (
+                <span role="img" aria-label="已按讚">
+                  ❤️
+                </span>
+              ) : (
+                <span role="img" aria-label="未按讚">
+                  🤍
+                </span>
+              )}{' '}
+              讚 ({comment.likeCount})
+            </button>
+            <button
+              onClick={() => handleInteraction(comment.id, 'dislike')}
+              style={{
+                fontWeight:
+                  comment.userAction === 'dislike' ? 'bold' : 'normal',
+              }}
+            >
+              <span role="img" aria-label="倒讚">
+                👎
+              </span>{' '}
+              倒讚 ({comment.dislikeCount})
             </button>
           </li>
         ))}
