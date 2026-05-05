@@ -67,7 +67,7 @@ export default function CommentPractice() {
         {comments.map((comment) => (
           <li>
             <p>{comment.content}</p>
-            <button onClick={handleLike(comment.id)}>
+            <button onClick={() => handleLike(comment.id)}>
               愛心 {comment.likeCount}
             </button>
           </li>
