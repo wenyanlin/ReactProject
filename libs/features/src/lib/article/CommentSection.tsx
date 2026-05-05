@@ -11,7 +11,7 @@ const MAX_LENGTH = 200;
 
 const initialComments: Comment[] = [
   {
-    id: 1,
+    id: Date.now() - 10000, // 確保比新留言舊
     content: '這是第一則留言',
     likeCount: 0,
   },
@@ -34,12 +34,15 @@ export function CommentSection() {
     }
 
     const newComment = {
-      id: comments.length + 1,
+      id: Date.now(),
       content: inputValue,
       likeCount: 0,
     };
 
-    setComments((prev) => [newComment, ...prev]);
+    setComments((prev) => {
+      const updatedComments = [newComment, ...prev];
+      return updatedComments.sort((a, b) => b.id - a.id);
+    });
 
     setInputValue('');
   };
