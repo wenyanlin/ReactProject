@@ -51,6 +51,7 @@ export function CommentSection() {
     });
 
     setInputValue('');
+    handleFocus();
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -103,15 +104,15 @@ export function CommentSection() {
     );
   };
 
-//   const handleLike = (id: number) => {
-//     setComments((prev) =>
-//       prev.map((comment) =>
-//         comment.id === id
-//           ? { ...comment, likeCount: comment.likeCount + 1 }
-//           : comment,
-//       ),
-//     );
-//   };
+  //   const handleLike = (id: number) => {
+  //     setComments((prev) =>
+  //       prev.map((comment) =>
+  //         comment.id === id
+  //           ? { ...comment, likeCount: comment.likeCount + 1 }
+  //           : comment,
+  //       ),
+  //     );
+  //   };
 
   return (
     <section>
@@ -125,6 +126,11 @@ export function CommentSection() {
         placeholder="請輸入留言"
         maxLength={MAX_LENGTH}
         onChange={handleInputChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSubmit();
+          }
+        }}
       />
 
       <button onClick={handleSubmit}>送出</button>
