@@ -70,7 +70,7 @@ export function CommentSection() {
 
       <ul>
         {comments.map((comment) => (
-          <li>
+          <li key={comment.id}>
             <p>{comment.content}</p>
             <button onClick={() => handleLike(comment.id)}>
               愛心 {comment.likeCount}
