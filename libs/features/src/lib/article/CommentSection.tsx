@@ -1,10 +1,13 @@
 import { useRef, useState } from 'react';
+import { ChangeEvent } from 'react';
 
 type Comment = {
   id: number;
   content: string;
   likeCount: number;
 };
+
+const MAX_LENGTH = 200;
 
 const initialComments: Comment[] = [
   {
@@ -25,33 +28,34 @@ export function CommentSection() {
       return;
     }
 
+    if (inputValue.length > MAX_LENGTH) {
+      alert('留言內容不能超過200字');
+      return;
+    }
+
     const newComment = {
       id: comments.length + 1,
       content: inputValue,
       likeCount: 0,
     };
 
-    // comments.unshift(newComment);
-    // setComments(comments);
     setComments((prev) => [newComment, ...prev]);
 
-    // inputValue = '';
     setInputValue('');
   };
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= MAX_LENGTH) {
+      setInputValue(value);
+    }
+  };
+
   const handleFocus = () => {
-    // inputRef.focus();
     inputRef.current?.focus();
   };
 
   const handleLike = (id: number) => {
-    // const target = comments.find((comment) => comment.id === id);
-
-    // if (target) {
-    //   target.likeCount = target.likeCount + 1;
-    // }
-
-    // setComments(comments);
     setComments((prev) =>
       prev.map((comment) =>
         comment.id === id
@@ -71,7 +75,8 @@ export function CommentSection() {
         ref={inputRef}
         value={inputValue}
         placeholder="請輸入留言"
-        onChange={(e) => setInputValue(e.target.value)}
+        maxLength={MAX_LENGTH}
+        onChange={handleInputChange}
       />
 
       <button onClick={handleSubmit}>送出</button>
