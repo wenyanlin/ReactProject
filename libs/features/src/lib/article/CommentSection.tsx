@@ -30,8 +30,9 @@ export function CommentSection() {
       likeCount: 0,
     };
 
-    comments.unshift(newComment);
-    setComments(comments);
+    // comments.unshift(newComment);
+    // setComments(comments);
+    setComments((prev) => [newComment, ...prev]);
 
     // inputValue = '';
     setInputValue('');
@@ -43,13 +44,20 @@ export function CommentSection() {
   };
 
   const handleLike = (id: number) => {
-    const target = comments.find((comment) => comment.id === id);
+    // const target = comments.find((comment) => comment.id === id);
 
-    if (target) {
-      target.likeCount = target.likeCount + 1;
-    }
+    // if (target) {
+    //   target.likeCount = target.likeCount + 1;
+    // }
 
-    setComments(comments);
+    // setComments(comments);
+    setComments((prev) =>
+      prev.map((comment) =>
+        comment.id === id
+          ? { ...comment, likeCount: comment.likeCount + 1 }
+          : comment,
+      ),
+    );
   };
 
   return (
