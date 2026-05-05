@@ -14,7 +14,7 @@ const initialComments: Comment[] = [
   },
 ];
 
-export default function CommentPractice() {
+export function CommentSection() {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -58,7 +58,12 @@ export default function CommentPractice() {
 
       <p>目前共有 {comments.length} 則留言</p>
 
-      <input ref={inputRef} value={inputValue} placeholder="請輸入留言" />
+      <input
+        ref={inputRef}
+        value={inputValue}
+        placeholder="請輸入留言"
+        onChange={(e) => setInputValue(e.target.value)}
+      />
 
       <button onClick={handleSubmit}>送出</button>
       <button onClick={handleFocus}>Focus Input</button>
