@@ -22,6 +22,7 @@ export function CommentSection() {
   const handleSubmit = () => {
     if (inputValue === '') {
       alert('請輸入留言');
+      return;
     }
 
     const newComment = {
