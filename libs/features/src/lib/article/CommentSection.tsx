@@ -26,6 +26,18 @@ export function CommentSection() {
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleDelete = (id: number) => {
+    if (window.confirm('確定要刪除這則留言嗎？')) {
+      setComments((prev) => prev.filter((comment) => comment.id !== id));
+    }
+  };
+
+  const handleClearAll = () => {
+    if (window.confirm('警告：這將會移除所有留言，確定嗎？')) {
+      setComments([]);
+    }
+  };
+
   const handleSubmit = () => {
     if (inputValue.trim() === '') {
       alert('請輸入留言');
@@ -135,6 +147,9 @@ export function CommentSection() {
 
       <button onClick={handleSubmit}>送出</button>
       <button onClick={handleFocus}>Focus Input</button>
+      {comments.length > 0 && (
+        <button onClick={handleClearAll}>清空所有留言</button>
+      )}
 
       <ul>
         {comments.map((comment) => (
@@ -169,6 +184,7 @@ export function CommentSection() {
               </span>{' '}
               倒讚 ({comment.dislikeCount})
             </button>
+            <button onClick={() => handleDelete(comment.id)}>刪除</button>
           </li>
         ))}
       </ul>
