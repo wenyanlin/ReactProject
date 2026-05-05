@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { ChangeEvent } from 'react';
+import { CommentInput } from './comment/CommentInput';
 
 type Comment = {
   id: number;
@@ -132,17 +133,13 @@ export function CommentSection() {
 
       <p>目前共有 {comments.length} 則留言</p>
 
-      <input
+      <CommentInput
         ref={inputRef}
         value={inputValue}
         placeholder="請輸入留言"
         maxLength={MAX_LENGTH}
         onChange={handleInputChange}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleSubmit();
-          }
-        }}
+        onSubmit={handleSubmit}
       />
 
       <button onClick={handleSubmit}>送出</button>
