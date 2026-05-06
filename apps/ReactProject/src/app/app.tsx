@@ -7,12 +7,12 @@ import { Outlet } from 'react-router-dom';
 
 export default function App() {
   return (
-    <>
+    <div className="bg-neutral-100">
       {/* <header></header> */}
-      <main className="max-w-screen-md mx-auto bg-neutral-50">
+      <main className="bg-white max-w-screen-md mx-auto">
         <Outlet />
       </main>
       {/* <footer></footer> */}
-    </>
+    </div>
   );
 }

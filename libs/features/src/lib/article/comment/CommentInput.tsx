@@ -18,7 +18,7 @@ export function CommentInput({
   ref,
 }: CommentInputProps) {
   return (
-    <div className="comment-input-wrapper">
+    <div className="relative w-full flex items-center gap-4 rounded-md">
       <input
         ref={ref}
         value={value}
@@ -30,8 +30,9 @@ export function CommentInput({
             onSubmit();
           }
         }}
+        className="w-full pl-4 py-3 focus:outline-none"
       />
-      <div>
+      <div className='pr-4 text-nowrap text-xs'>
         {value.length} / {maxLength}
       </div>
     </div>

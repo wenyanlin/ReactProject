@@ -1,14 +1,8 @@
 import { useRef, useState } from 'react';
 import { ChangeEvent } from 'react';
 import { CommentInput } from './comment/CommentInput';
-
-type Comment = {
-  id: number;
-  content: string;
-  likeCount: number;
-  dislikeCount: number;
-  userAction: 'like' | 'dislike' | null;
-};
+import { CommentList } from './comment/CommentList';
+import { Comment } from './comment/CommentItem';
 
 const MAX_LENGTH = 200;
 
@@ -128,63 +122,33 @@ export function CommentSection() {
   //   };
 
   return (
-    <section>
-      <h2>留言區</h2>
-
-      <p>目前共有 {comments.length} 則留言</p>
+    <section className="py-4">
+      <h2 className="px-4 pb-2 border-b border-neutral-200 font-medium">
+        留言 {comments.length}
+      </h2>
 
       <CommentInput
         ref={inputRef}
         value={inputValue}
-        placeholder="請輸入留言"
+        placeholder="新增留言"
         maxLength={MAX_LENGTH}
         onChange={handleInputChange}
         onSubmit={handleSubmit}
       />
 
-      <button onClick={handleSubmit}>送出</button>
-      <button onClick={handleFocus}>Focus Input</button>
-      {comments.length > 0 && (
-        <button onClick={handleClearAll}>清空所有留言</button>
-      )}
+      <div className='px-4 flex gap-2 justify-end *:border *:border-neutral-200 *:text-sm *:text-neutral-600 *:px-2 *:py-0.5 *:rounded-md *:transition-colors *:duration-150 *:cursor-pointer *:hover:bg-neutral-50 *:hover:border-neutral-300'>
+        <button onClick={handleSubmit}>送出</button>
+        <button onClick={handleFocus}>Focus Input</button>
+        {comments.length > 0 && (
+          <button onClick={handleClearAll}>清空所有留言</button>
+        )}
+      </div>
 
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment.id}>
-            <p>{comment.content}</p>
-            <button
-              onClick={() => handleInteraction(comment.id, 'like')}
-              style={{
-                fontWeight: comment.userAction === 'like' ? 'bold' : 'normal',
-              }}
-            >
-              {comment.userAction === 'like' ? (
-                <span role="img" aria-label="已按讚">
-                  ❤️
-                </span>
-              ) : (
-                <span role="img" aria-label="未按讚">
-                  🤍
-                </span>
-              )}{' '}
-              讚 ({comment.likeCount})
-            </button>
-            <button
-              onClick={() => handleInteraction(comment.id, 'dislike')}
-              style={{
-                fontWeight:
-                  comment.userAction === 'dislike' ? 'bold' : 'normal',
-              }}
-            >
-              <span role="img" aria-label="倒讚">
-                👎
-              </span>{' '}
-              倒讚 ({comment.dislikeCount})
-            </button>
-            <button onClick={() => handleDelete(comment.id)}>刪除</button>
-          </li>
-        ))}
-      </ul>
+      <CommentList
+        comments={comments}
+        onInteraction={handleInteraction}
+        onDelete={handleDelete}
+      />
     </section>
   );
 }
