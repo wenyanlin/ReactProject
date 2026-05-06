@@ -12,7 +12,7 @@ export function CommentList({
   onDelete,
 }: CommentListProps) {
   return (
-    <ul className="p-4 *:mb-4 *:last:mb-0">
+    <ul className="p-4 flex flex-col gap-4">
       {comments.length === 0
         ? '目前沒有留言'
         : comments.map((comment) => (
