@@ -8,7 +8,7 @@ const MAX_LENGTH = 200;
 
 const initialComments: Comment[] = [
   {
-    id: Date.now() - 10000, // 確保比新留言舊
+    id: 0,
     content: '這是第一則留言',
     likeCount: 0,
     dislikeCount: 0,
@@ -20,6 +20,7 @@ export function CommentSection() {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const idRef = useRef(1);
 
   const handleDelete = (id: number) => {
     if (window.confirm('確定要刪除這則留言嗎？')) {
@@ -45,7 +46,7 @@ export function CommentSection() {
     }
 
     const newComment = {
-      id: Date.now(),
+      id: idRef.current++,
       content: inputValue,
       likeCount: 0,
       dislikeCount: 0,
