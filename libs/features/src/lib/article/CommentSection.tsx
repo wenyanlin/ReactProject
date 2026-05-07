@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-import { ChangeEvent } from 'react';
+import { useRef, useState, ChangeEvent, useMemo } from 'react';
 import { CommentInput } from './comment/CommentInput';
 import { CommentList } from './comment/CommentList';
 import { Comment } from './comment/CommentItem';
@@ -18,9 +17,9 @@ const initialComments: Comment[] = [
 
 export function CommentSection() {
   const [comments, setComments] = useState<Comment[]>(initialComments);
-  const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const idRef = useRef(1);
+  const charLengthRef = useRef<HTMLSpanElement>(null);
 
   const handleDelete = (id: number) => {
     if (window.confirm('確定要刪除這則留言嗎？')) {
@@ -35,19 +34,21 @@ export function CommentSection() {
   };
 
   const handleSubmit = () => {
-    if (inputValue.trim() === '') {
+    const value = inputRef.current?.value || '';
+
+    if (value.trim() === '') {
       alert('請輸入留言');
       return;
     }
 
-    if (inputValue.length > MAX_LENGTH) {
+    if (value.length > MAX_LENGTH) {
       alert('留言內容不能超過200字');
       return;
     }
 
     const newComment = {
       id: idRef.current++,
-      content: inputValue,
+      content: value,
       likeCount: 0,
       dislikeCount: 0,
       userAction: null,
@@ -55,16 +56,18 @@ export function CommentSection() {
 
     setComments((prev) => [newComment, ...prev]);
 
-    setInputValue('');
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
     handleFocus();
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    if (value.length <= MAX_LENGTH) {
-      setInputValue(value);
-    }
-  };
+  // const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  //   const value = e.target.value;
+  //   if (value.length <= MAX_LENGTH) {
+  //     setInputValue(value);
+  //   }
+  // };
 
   const handleFocus = () => {
     inputRef.current?.focus();
@@ -73,6 +76,13 @@ export function CommentSection() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && e.ctrlKey) {
       handleSubmit();
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const currentLength = e.target.value.length;
+    if (charLengthRef.current) {
+      charLengthRef.current.textContent = currentLength.toString();
     }
   };
 
@@ -121,11 +131,11 @@ export function CommentSection() {
 
       <CommentInput
         ref={inputRef}
-        value={inputValue}
         placeholder="新增留言"
+        charLengthRef={charLengthRef}
         maxLength={MAX_LENGTH}
-        onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        onChange={handleChange}
       />
 
       <div className="px-4 flex gap-2 justify-end *:border *:border-neutral-200 *:text-sm *:text-neutral-600 *:px-2 *:py-0.5 *:rounded-md *:transition-colors *:duration-150 *:cursor-pointer *:hover:bg-neutral-50 *:hover:border-neutral-300">
