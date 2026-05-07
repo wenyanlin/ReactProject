@@ -83,33 +83,21 @@ export function CommentSection() {
 
         const { likeCount, dislikeCount, userAction } = comment;
 
-        // 取消已經點過的按鈕
-        if (userAction === action) {
-          return {
-            ...comment,
-            likeCount: action === 'like' ? likeCount - 1 : likeCount,
-            dislikeCount:
-              action === 'dislike' ? dislikeCount - 1 : dislikeCount,
-            userAction: null,
-          };
-        }
+        // 先把舊的動作扣掉
+        const baseLike = userAction === 'like' ? likeCount - 1 : likeCount;
+        const baseDislike =
+          userAction === 'dislike' ? dislikeCount - 1 : dislikeCount;
 
-        // 點讚或倒讚
+        // 決定新的動作
+        const nextAction = userAction === action ? null : action;
+
+        // 加上新動作的影響
         return {
           ...comment,
-          likeCount:
-            action === 'like'
-              ? likeCount + 1
-              : userAction === 'like'
-                ? likeCount - 1
-                : likeCount,
+          userAction: nextAction,
+          likeCount: nextAction === 'like' ? baseLike + 1 : baseLike,
           dislikeCount:
-            action === 'dislike'
-              ? dislikeCount + 1
-              : userAction === 'dislike'
-                ? dislikeCount - 1
-                : dislikeCount,
-          userAction: action,
+            nextAction === 'dislike' ? baseDislike + 1 : baseDislike,
         };
       }),
     );
