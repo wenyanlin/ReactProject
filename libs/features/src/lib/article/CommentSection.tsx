@@ -19,7 +19,7 @@ const initialComments: Comment[] = [
 export function CommentSection() {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [inputValue, setInputValue] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleDelete = (id: number) => {
     if (window.confirm('確定要刪除這則留言嗎？')) {
@@ -52,16 +52,13 @@ export function CommentSection() {
       userAction: null,
     };
 
-    setComments((prev) => {
-      const updatedComments = [newComment, ...prev];
-      return updatedComments.sort((a, b) => b.id - a.id);
-    });
+    setComments((prev) => [newComment, ...prev]);
 
     setInputValue('');
     handleFocus();
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (value.length <= MAX_LENGTH) {
       setInputValue(value);
@@ -70,6 +67,12 @@ export function CommentSection() {
 
   const handleFocus = () => {
     inputRef.current?.focus();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      handleSubmit();
+    }
   };
 
   const handleInteraction = (id: number, action: 'like' | 'dislike') => {
@@ -133,10 +136,10 @@ export function CommentSection() {
         placeholder="新增留言"
         maxLength={MAX_LENGTH}
         onChange={handleInputChange}
-        onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
       />
 
-      <div className='px-4 flex gap-2 justify-end *:border *:border-neutral-200 *:text-sm *:text-neutral-600 *:px-2 *:py-0.5 *:rounded-md *:transition-colors *:duration-150 *:cursor-pointer *:hover:bg-neutral-50 *:hover:border-neutral-300'>
+      <div className="px-4 flex gap-2 justify-end *:border *:border-neutral-200 *:text-sm *:text-neutral-600 *:px-2 *:py-0.5 *:rounded-md *:transition-colors *:duration-150 *:cursor-pointer *:hover:bg-neutral-50 *:hover:border-neutral-300">
         <button onClick={handleSubmit}>送出</button>
         <button onClick={handleFocus}>Focus Input</button>
         {comments.length > 0 && (

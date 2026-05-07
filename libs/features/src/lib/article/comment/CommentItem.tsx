@@ -20,7 +20,7 @@ export function CommentItem({
   return (
     <li className="p-3 border border-neutral-200 relative">
       <div className="flex justify-between items-start mb-2">
-        <p className="text-neutral-800 flex-1">{comment.content}</p>
+        <p className="text-neutral-800 flex-1 whitespace-pre-wrap">{comment.content}</p>
         <button
           className="text-neutral-400 hover:text-neutral-600 text-sm ml-2 duration-150 transition-colors cursor-pointer"
           onClick={() => onDelete(comment.id)}

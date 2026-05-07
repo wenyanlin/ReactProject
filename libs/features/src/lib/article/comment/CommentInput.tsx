@@ -2,35 +2,31 @@ import { KeyboardEvent, ChangeEvent, Ref } from 'react';
 
 export interface CommentInputProps {
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: () => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   maxLength: number;
   placeholder?: string;
-  ref?: Ref<HTMLInputElement>;
+  ref?: Ref<HTMLTextAreaElement>;
 }
 
 export function CommentInput({
   value,
   onChange,
-  onSubmit,
+  onKeyDown,
   maxLength,
   placeholder,
   ref,
 }: CommentInputProps) {
   return (
     <div className="relative w-full flex items-center gap-4 rounded-md">
-      <input
+      <textarea
         ref={ref}
         value={value}
         placeholder={placeholder}
         maxLength={maxLength}
         onChange={onChange}
-        onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === 'Enter') {
-            onSubmit();
-          }
-        }}
-        className="w-full pl-4 py-3 focus:outline-none"
+        onKeyDown={onKeyDown}
+        className="w-full h-16 pl-4 my-3 resize-none focus:outline-none"
       />
       <div className='pr-4 text-nowrap text-xs'>
         {value.length} / {maxLength}
