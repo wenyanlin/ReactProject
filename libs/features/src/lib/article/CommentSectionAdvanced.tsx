@@ -67,8 +67,8 @@ export function CommentSectionAdvanced() {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const data = await fetchComments();
         setComments(data);
@@ -83,7 +83,7 @@ export function CommentSectionAdvanced() {
       }
     };
     fetchData();
-  }, [comments]);
+  }, []);
 
   document.title = `留言數：${comments.length}`;
 
