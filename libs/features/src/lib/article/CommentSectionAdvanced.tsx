@@ -85,7 +85,12 @@ export function CommentSectionAdvanced() {
     fetchData();
   }, []);
 
-  document.title = `留言數：${comments.length}`;
+  useEffect(() => {
+    document.title = `留言數：${comments.length}`;
+    return () => {
+      document.title = `卸載時還原標題`;
+    };
+  }, [comments]);
 
   const stats = useMemo(() => {
     return {
