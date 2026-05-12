@@ -98,7 +98,7 @@ export function CommentSectionAdvanced() {
       totalLikes: comments.reduce((sum, item) => sum + item.likeCount, 0),
       totalDislikes: comments.reduce((sum, item) => sum + item.dislikeCount, 0),
     };
-  }, []);
+  }, [comments]);
 
   const handleSubmit = useCallback(() => {
     if (!mockUser) {
@@ -121,7 +121,7 @@ export function CommentSectionAdvanced() {
 
     setComments([newComment, ...comments]);
     setInputValue('');
-  }, []);
+  }, [inputValue, comments]);
 
   const handleLike = useCallback((id: number) => {
     setComments(
@@ -131,7 +131,8 @@ export function CommentSectionAdvanced() {
           : comment,
       ),
     );
-  }, []);
+  }, [comments]);
+
 
   const contextValue = {
     user: mockUser,
@@ -168,7 +169,7 @@ export function CommentSectionAdvanced() {
 
 function UserInfo() {
   const auth = useAuth();
-
+  
   return <p>目前使用者：{auth.user.name}</p>;
 }
 
@@ -199,13 +200,24 @@ function CommentList({ comments, onLike }: CommentListProps) {
   return (
     <ul>
       {comments.map((comment) => (
-        <li key={comment.id}>
-          <p>{comment.content}</p>
-          <button onClick={() => onLike(comment.id)}>
-            愛心 {comment.likeCount}
-          </button>
-        </li>
+        <CommentItem key={comment.id} comment={comment} onLike={onLike} />
       ))}
     </ul>
+  );
+}
+
+type CommentItemProps = {
+  comment: Comment;
+  onLike: (id: number) => void;
+};
+
+function CommentItem({ comment, onLike }: CommentItemProps) {
+  return (
+    <li key={comment.id}>
+      <p>{comment.content}</p>
+      <button onClick={() => onLike(comment.id)}>
+        愛心 {comment.likeCount}
+      </button>
+    </li>
   );
 }
