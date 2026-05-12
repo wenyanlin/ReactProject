@@ -54,6 +54,10 @@ type AuthContextValue = {
   user: User | null;
 };
 
+const contextValue: AuthContextValue = {
+  user: mockUser,
+};
+
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 function useAuth() {
@@ -133,10 +137,6 @@ export function CommentSectionAdvanced() {
     );
   }, []);
 
-  const contextValue = {
-    user: mockUser,
-  };
-
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -169,6 +169,9 @@ export function CommentSectionAdvanced() {
 function UserInfo() {
   const auth = useAuth();
 
+  if(!auth || !auth.user) {
+    return <p>請先登入</p>;
+  }
   return <p>目前使用者：{auth.user.name}</p>;
 }
 
