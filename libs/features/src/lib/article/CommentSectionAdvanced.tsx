@@ -105,7 +105,7 @@ export function CommentSectionAdvanced() {
   }, [comments]);
 
   const handleSubmit = useCallback(() => {
-    if (!mockUser) {
+    if (!contextValue.user) {
       alert('請先登入');
       return;
     }
@@ -117,7 +117,7 @@ export function CommentSectionAdvanced() {
 
     const newComment: Comment = {
       id: Date.now(),
-      authorId: mockUser.id,
+      authorId: contextValue.user?.id,
       content: inputValue,
       likeCount: 0,
       dislikeCount: 0,
@@ -169,7 +169,7 @@ export function CommentSectionAdvanced() {
 function UserInfo() {
   const auth = useAuth();
 
-  if(!auth || !auth.user) {
+  if (!auth || !auth.user) {
     return <p>請先登入</p>;
   }
   return <p>目前使用者：{auth.user.name}</p>;
