@@ -124,15 +124,14 @@ export function CommentSectionAdvanced() {
   }, [inputValue, comments]);
 
   const handleLike = useCallback((id: number) => {
-    setComments(
-      comments.map((comment) =>
+    setComments((preComments) =>
+      preComments.map((comment) =>
         comment.id === id
           ? { ...comment, likeCount: comment.likeCount + 1 }
           : comment,
       ),
     );
-  }, [comments]);
-
+  }, []);
 
   const contextValue = {
     user: mockUser,
@@ -169,7 +168,7 @@ export function CommentSectionAdvanced() {
 
 function UserInfo() {
   const auth = useAuth();
-  
+
   return <p>目前使用者：{auth.user.name}</p>;
 }
 
