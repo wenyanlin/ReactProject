@@ -54,10 +54,6 @@ type AuthContextValue = {
   user: User | null;
 };
 
-const contextValue: AuthContextValue = {
-  user: mockUser,
-};
-
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 function useAuth() {
@@ -69,6 +65,14 @@ export function CommentSectionAdvanced() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [currentUser] = useState<User | null>(mockUser);
+
+  const contextValue = useMemo(
+    () => ({
+      user: currentUser,
+    }),
+    [currentUser],
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -125,7 +129,7 @@ export function CommentSectionAdvanced() {
 
     setComments([newComment, ...comments]);
     setInputValue('');
-  }, [inputValue, comments]);
+  }, [inputValue, comments, contextValue]);
 
   const handleLike = useCallback((id: number) => {
     setComments((preComments) =>
