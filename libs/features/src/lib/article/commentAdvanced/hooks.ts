@@ -42,6 +42,7 @@ export function useCommentLogic() {
       }
     };
     fetchData();
+    
   }, []);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export function useCommentLogic() {
     return () => {
       document.title = `卸載的時候看要改什麼`;
     };
-  }, [comments]);
+  }, [comments.length]);
 
   const authValue = useMemo(
     () => ({

@@ -19,7 +19,6 @@ export function CommentSection() {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const idRef = useRef(1);
-  const charLengthRef = useRef<HTMLSpanElement>(null);
 
   const handleDelete = (id: number) => {
     if (window.confirm('確定要刪除這則留言嗎？')) {
@@ -79,13 +78,6 @@ export function CommentSection() {
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const currentLength = e.target.value.length;
-    if (charLengthRef.current) {
-      charLengthRef.current.textContent = currentLength.toString();
-    }
-  };
-
   const handleInteraction = (id: number, action: 'like' | 'dislike') => {
     setComments((prev) =>
       prev.map((comment) => {
@@ -132,10 +124,8 @@ export function CommentSection() {
       <CommentInput
         ref={inputRef}
         placeholder="新增留言"
-        charLengthRef={charLengthRef}
         maxLength={MAX_LENGTH}
         onKeyDown={handleKeyDown}
-        onChange={handleChange}
       />
 
       <div className="px-4 flex gap-2 justify-end *:border *:border-neutral-200 *:text-sm *:text-neutral-600 *:px-2 *:py-0.5 *:rounded-md *:transition-colors *:duration-150 *:cursor-pointer *:hover:bg-neutral-50 *:hover:border-neutral-300">

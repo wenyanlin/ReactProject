@@ -5,7 +5,6 @@ import { AuthContext, useCommentLogic } from './commentAdvanced/hooks';
 import { UserInfo } from './commentAdvanced/UserInfo';
 
 export function CommentSectionAdvanced() {
-  console.log('CommentSectionAdvanced rendered');
   const {
     comments,
     inputRef,
