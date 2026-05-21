@@ -1,39 +1,75 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ArticleHeader } from '../article/ArticleHeader';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  RootState,
-  loadArticle,
-  AppDispatch,
-  clearArticleDetail,
-} from '@org/data-access';
+
 import { useEffect, useState } from 'react';
 import { ArticleTags } from '../article/ArticleTags';
 import { CommentSection } from '../article/CommentSection';
-import { CommentSectionAdvanced } from '../article/CommentSectionAdvanced';
+import {
+  ArticleDetail,
+  Category,
+  fetchArticleById,
+  fetchCategories,
+} from '@org/data-access';
 
 export function ArticlePage() {
   const { id } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
-  const { articleDetail, categories, isLoading, error } = useSelector(
-    (state: RootState) => state.news,
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isCategoriesLoading, setIsCategoriesLoading] =
+    useState<boolean>(false);
+  const [categoriesError, setCategoriesError] = useState<string | null>(null);
+  const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(
+    null,
   );
+  const [isArticleDetailLoading, setIsArticleDetailLoading] =
+    useState<boolean>(false);
+  const [articleDetailError, setArticleDetailError] = useState<string | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        setIsCategoriesLoading(true);
+        const rawCategories = await fetchCategories();
+        if (!rawCategories || rawCategories.length === 0) {
+          setCategoriesError('沒有分類資料');
+          return;
+        }
+        setCategories(rawCategories);
+      } catch (err) {
+        console.log(err);
+        setCategoriesError('載入分類失敗');
+      } finally {
+        setIsCategoriesLoading(false);
+      }
+    };
+    loadCategories();
+  }, []);
+
+  useEffect(() => {
+    const loadArticleDetail = async () => {
+      try {
+        setIsArticleDetailLoading(true);
+        const rawArticleDetail = await fetchArticleById(id || '');
+        if (!rawArticleDetail) {
+          setArticleDetailError('沒有新聞內容');
+          return;
+        }
+        setArticleDetail(rawArticleDetail);
+      } catch (err) {
+        console.log(err);
+        setArticleDetailError('載入新聞內容失敗');
+      } finally {
+        setIsArticleDetailLoading(false);
+      }
+    };
+    loadArticleDetail();
+  }, [id]);
 
   const currentCategory = categories.find(
     (cat) => cat.id === articleDetail?.categoryId,
   );
-
-  useEffect(() => {
-    if (id) {
-      dispatch(loadArticle(id));
-    }
-
-    return () => {
-      dispatch(clearArticleDetail());
-    };
-  }, [dispatch, id]);
 
   return (
     <div className="min-h-screen ">
@@ -48,8 +84,10 @@ export function ArticlePage() {
           </Link>
         )}
       </nav>
-      {error && <div className="p-4 text-red-500 text-center">{error}</div>}
-      {isLoading ? (
+      {articleDetailError && (
+        <div className="p-4 text-red-500 text-center">{articleDetailError}</div>
+      )}
+      {isArticleDetailLoading ? (
         <div className="p-8 text-center text-neutral-500">新聞載入中...</div>
       ) : articleDetail ? (
         <>
@@ -70,7 +108,6 @@ export function ArticlePage() {
           />
           <ArticleTags tags={articleDetail?.tags || []} />
           <CommentSection />
-          <CommentSectionAdvanced />
         </>
       ) : (
         <div className="p-8 text-center text-neutral-500">目前沒有相關新聞</div>

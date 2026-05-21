@@ -1,33 +1,84 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, loadArticlesByCategory, RootState } from '@org/data-access';
 import { ArticleCard } from '../shared/ArticleCard.tsx';
 import { CategoryTabs } from '../home/CategoryTabs';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Article,
+  Category,
+  fetchArticlesByCategory,
+  fetchCategories,
+} from '@org/data-access';
+import { useEffect, useState } from 'react';
 
 export function HomePage() {
   const { categoryId } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
-  const { articles, categories, isLoading, error } = useSelector(
-    (state: RootState) => state.news,
-  );
+  const navigation = useNavigate();
+  const [categories, setCategories] = useState<Category[] | null>([]);
+  const [isCategoriesLoading, setIsCategoriesLoading] =
+    useState<boolean>(false);
+  const [categoriesError, setCategoriesError] = useState<string | null>(null);
+  const [articles, setArticlesState] = useState<Article[] | null>(null);
+  const [isArticlesLoading, setIsArticlesLoading] = useState<boolean>(false);
+  const [articlesError, setArticlesError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (categoryId) {
-      dispatch(loadArticlesByCategory(categoryId));
-    } else if (categories.length > 0) {
-      dispatch(loadArticlesByCategory(categories[0].id));
+    const loadCategories = async () => {
+      try {
+        setIsCategoriesLoading(true);
+        const rawCategories = await fetchCategories();
+        if (!rawCategories || rawCategories.length === 0) {
+          setCategoriesError('沒有分類資料');
+          return;
+        }
+        setCategories(rawCategories);
+      } catch (err) {
+        console.log(err);
+        setCategoriesError('載入分類失敗');
+      } finally {
+        setIsCategoriesLoading(false);
+      }
+    };
+    loadCategories();
+  }, []);
+
+  useEffect(() => {
+    if (!categoryId) {
+      navigation(`/c1`, { replace: true });
+      return;
     }
-  }, [dispatch, categoryId, categories]);
+    const loadArticles = async () => {
+      try {
+        setIsArticlesLoading(true);
+        const rawArticles = await fetchArticlesByCategory(categoryId || 'c1');
+        if (!rawArticles || rawArticles.length === 0) {
+          setArticlesError('沒有新聞列表');
+          return;
+        }
+        setArticlesState(rawArticles);
+      } catch (err) {
+        console.log(err);
+        setArticlesError('載入新聞列表失敗');
+      } finally {
+        setIsArticlesLoading(false);
+      }
+    };
+    loadArticles();
+  }, [navigation, categoryId]);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <CategoryTabs />
+      <CategoryTabs
+        categories={categories}
+        isLoading={isCategoriesLoading}
+        error={categoriesError}
+        activeCategoryId={categoryId}
+      />
       <div className="flex-1">
-        {error && <div className="p-4 text-red-500 text-center">{error}</div>}
-        {isLoading ? (
+        {articlesError && (
+          <div className="p-4 text-red-500 text-center">{articlesError}</div>
+        )}
+        {isArticlesLoading ? (
           <div className="p-8 text-center text-neutral-500">新聞載入中...</div>
-        ) : articles.length > 0 ? (
+        ) : articles && articles.length > 0 ? (
           <div className="divide-y divide-neutral-200">
             {articles.map((article) => (
               <ArticleCard key={article.id} data={article} />
