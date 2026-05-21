@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-import { ChangeEvent } from 'react';
+import { useRef, useState, ChangeEvent, useMemo } from 'react';
 import { CommentInput } from './comment/CommentInput';
 import { CommentList } from './comment/CommentList';
 import { Comment } from './comment/CommentItem';
@@ -8,7 +7,7 @@ const MAX_LENGTH = 200;
 
 const initialComments: Comment[] = [
   {
-    id: Date.now() - 10000, // 確保比新留言舊
+    id: 0,
     content: '這是第一則留言',
     likeCount: 0,
     dislikeCount: 0,
@@ -18,8 +17,8 @@ const initialComments: Comment[] = [
 
 export function CommentSection() {
   const [comments, setComments] = useState<Comment[]>(initialComments);
-  const [inputValue, setInputValue] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const idRef = useRef(1);
 
   const handleDelete = (id: number) => {
     if (window.confirm('確定要刪除這則留言嗎？')) {
@@ -34,42 +33,49 @@ export function CommentSection() {
   };
 
   const handleSubmit = () => {
-    if (inputValue.trim() === '') {
+    const value = inputRef.current?.value || '';
+
+    if (value.trim() === '') {
       alert('請輸入留言');
       return;
     }
 
-    if (inputValue.length > MAX_LENGTH) {
+    if (value.length > MAX_LENGTH) {
       alert('留言內容不能超過200字');
       return;
     }
 
     const newComment = {
-      id: Date.now(),
-      content: inputValue,
+      id: idRef.current++,
+      content: value,
       likeCount: 0,
       dislikeCount: 0,
       userAction: null,
     };
 
-    setComments((prev) => {
-      const updatedComments = [newComment, ...prev];
-      return updatedComments.sort((a, b) => b.id - a.id);
-    });
+    setComments((prev) => [newComment, ...prev]);
 
-    setInputValue('');
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
     handleFocus();
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value.length <= MAX_LENGTH) {
-      setInputValue(value);
-    }
-  };
+  // const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  //   const value = e.target.value;
+  //   if (value.length <= MAX_LENGTH) {
+  //     setInputValue(value);
+  //   }
+  // };
 
   const handleFocus = () => {
     inputRef.current?.focus();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      handleSubmit();
+    }
   };
 
   const handleInteraction = (id: number, action: 'like' | 'dislike') => {
@@ -79,33 +85,21 @@ export function CommentSection() {
 
         const { likeCount, dislikeCount, userAction } = comment;
 
-        // 取消已經點過的按鈕
-        if (userAction === action) {
-          return {
-            ...comment,
-            likeCount: action === 'like' ? likeCount - 1 : likeCount,
-            dislikeCount:
-              action === 'dislike' ? dislikeCount - 1 : dislikeCount,
-            userAction: null,
-          };
-        }
+        // 先把舊的動作扣掉
+        const baseLike = userAction === 'like' ? likeCount - 1 : likeCount;
+        const baseDislike =
+          userAction === 'dislike' ? dislikeCount - 1 : dislikeCount;
 
-        // 點讚或倒讚
+        // 決定新的動作
+        const nextAction = userAction === action ? null : action;
+
+        // 加上新動作的影響
         return {
           ...comment,
-          likeCount:
-            action === 'like'
-              ? likeCount + 1
-              : userAction === 'like'
-                ? likeCount - 1
-                : likeCount,
+          userAction: nextAction,
+          likeCount: nextAction === 'like' ? baseLike + 1 : baseLike,
           dislikeCount:
-            action === 'dislike'
-              ? dislikeCount + 1
-              : userAction === 'dislike'
-                ? dislikeCount - 1
-                : dislikeCount,
-          userAction: action,
+            nextAction === 'dislike' ? baseDislike + 1 : baseDislike,
         };
       }),
     );
@@ -129,14 +123,12 @@ export function CommentSection() {
 
       <CommentInput
         ref={inputRef}
-        value={inputValue}
         placeholder="新增留言"
         maxLength={MAX_LENGTH}
-        onChange={handleInputChange}
-        onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
       />
 
-      <div className='px-4 flex gap-2 justify-end *:border *:border-neutral-200 *:text-sm *:text-neutral-600 *:px-2 *:py-0.5 *:rounded-md *:transition-colors *:duration-150 *:cursor-pointer *:hover:bg-neutral-50 *:hover:border-neutral-300'>
+      <div className="px-4 flex gap-2 justify-end *:border *:border-neutral-200 *:text-sm *:text-neutral-600 *:px-2 *:py-0.5 *:rounded-md *:transition-colors *:duration-150 *:cursor-pointer *:hover:bg-neutral-50 *:hover:border-neutral-300">
         <button onClick={handleSubmit}>送出</button>
         <button onClick={handleFocus}>Focus Input</button>
         {comments.length > 0 && (

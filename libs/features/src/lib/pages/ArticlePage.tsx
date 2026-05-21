@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { ArticleTags } from '../article/ArticleTags';
 import { CommentSection } from '../article/CommentSection';
+import { CommentSectionAdvanced } from '../article/CommentSectionAdvanced';
 
 export function ArticlePage() {
   const { id } = useParams();
@@ -69,6 +70,7 @@ export function ArticlePage() {
           />
           <ArticleTags tags={articleDetail?.tags || []} />
           <CommentSection />
+          <CommentSectionAdvanced />
         </>
       ) : (
         <div className="p-8 text-center text-neutral-500">目前沒有相關新聞</div>
