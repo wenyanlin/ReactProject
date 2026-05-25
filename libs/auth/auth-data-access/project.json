@@ -1,0 +1,9 @@
+{
+  "name": "auth-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/auth/auth-data-access/src",
+  "projectType": "library",
+  "tags": ["scope:auth"],
+  "// targets": "to see all targets run: nx show project auth-data-access --web",
+  "targets": {}
+}

@@ -1,0 +1,9 @@
+{
+  "name": "feature-list",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/news/feature-list/src",
+  "projectType": "library",
+  "tags": ["scope:news"],
+  "// targets": "to see all targets run: nx show project feature-list --web",
+  "targets": {}
+}

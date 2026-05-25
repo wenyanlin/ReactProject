@@ -1,4 +1,6 @@
 import { Outlet } from 'react-router-dom';
+import { AppHeader } from '@org/ui-layout';
+import { AuthProvider } from '@org/auth-data-access';
 // import {
 //   fetchCategories,
 //   fetchArticlesByCategory,
@@ -7,12 +9,11 @@ import { Outlet } from 'react-router-dom';
 
 export default function App() {
   return (
-    <div className="bg-neutral-100">
-      {/* <header></header> */}
+    <AuthProvider>
       <main className="bg-white max-w-screen-md mx-auto">
+        <AppHeader />
         <Outlet />
       </main>
-      {/* <footer></footer> */}
-    </div>
+    </AuthProvider>
   );
 }

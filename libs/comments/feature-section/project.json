@@ -1,0 +1,9 @@
+{
+  "name": "feature-section",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/comments/feature-section/src",
+  "projectType": "library",
+  "tags": ["scope:comments"],
+  "// targets": "to see all targets run: nx show project feature-section --web",
+  "targets": {}
+}

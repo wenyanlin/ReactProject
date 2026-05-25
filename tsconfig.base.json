@@ -22,7 +22,13 @@
     "paths": {
       "@org/data-access": ["./libs/data-access/src/index.ts"],
       "@org/features": ["./libs/features/src/index.ts"],
-      "@org/ui": ["./libs/ui/src/index.ts"]
+      "@org/ui": ["./libs/ui/src/index.ts"],
+      "@org/feature-login": ["./libs/auth/feature-login/src/index.ts"],
+      "@org/feature-list": ["./libs/news/feature-list/src/index.ts"],
+      "@org/feature-detail": ["./libs/news/feature-detail/src/index.ts"],
+      "@org/feature-section": ["./libs/comments/feature-section/src/index.ts"],
+      "@org/ui-layout": ["./libs/shared/ui-layout/src/index.ts"],
+      "@org/auth-data-access": ["./libs/auth/auth-data-access/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
