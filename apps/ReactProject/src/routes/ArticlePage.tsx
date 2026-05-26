@@ -15,7 +15,7 @@ import {
   formatRelativeTime,
 } from '@org/data-access';
 
-export function FeatureDetail() {
+export function ArticlePage() {
   const { articleId } = useParams();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);

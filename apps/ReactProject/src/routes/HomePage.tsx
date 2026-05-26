@@ -9,7 +9,7 @@ import {
 // import styles from './feature-list.module.css';
 // className={styles['container']}
 
-export function FeatureList() {
+export function HomePage() {
   const { categoryId } = useParams();
     const navigation = useNavigate();
     const [categories, setCategories] = useState<Category[] | null>([]);

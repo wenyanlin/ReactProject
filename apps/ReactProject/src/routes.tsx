@@ -1,27 +1,27 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '../app';
-import { HomePage, ArticlePage } from '@org/features';
+import { RouterProvider } from 'react-router-dom';
+import { MainLayout } from '@org/ui-layout';
+import { HomePage } from './routes/HomePage';
+import { ArticlePage } from './routes/HomePage';
 
-export function createAppRoutes(queryClient: any) {
-  return createBrowserRouter([
-    {
-      path: '/',
-      element: <App />,
-      /**
-       * TODO: 增加錯誤路由跳轉頁面元件
-       * */
-      // errorElement: <div>Not Found</div>,
-      children: [
-        // TODO: 這裡的路由配置改從 features 內
-        // {
-        //   path: '/:categoryId?',
-        //   element: <HomePage />,
-        // },
-        // {
-        //   path: '/article/:id',
-        //   element: <ArticlePage />,
-        // },
-      ],
-    },
-  ]);
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      {
+        path: '/:categoryId?',
+        element: <HomePage />,
+      },
+      {
+        path: '/article/:articleId',
+        element: <ArticlePage />,
+      },
+    ],
+  },
+]);
+
+export function AppRouter() {
+  return <RouterProvider router={router} />;
 }
