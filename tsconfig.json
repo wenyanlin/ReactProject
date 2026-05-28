@@ -17,6 +17,9 @@
     },
     {
       "path": "./libs/pages/react-project"
+    },
+    {
+      "path": "./libs/shared/ui"
     }
   ]
 }

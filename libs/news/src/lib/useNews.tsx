@@ -11,10 +11,10 @@ export function useCategories(): Category[] {
   return mockCategories;
 }
 
-export function useNewsList(): NewsItem[] {
-  return mockNews;
+export function useNewsList(categoryId: string): NewsItem[] {
+  return mockNews.filter((n) => n.categoryId === categoryId);
 }
 
-export function useNewsDetail(id: string | undefined): NewsDetail | undefined {
-  return mockNewsDetails.find((n) => n.id === id);
+export function useNewsDetail(newsId: string): NewsDetail | undefined {
+  return mockNewsDetails.find((n) => n.id === newsId);
 }

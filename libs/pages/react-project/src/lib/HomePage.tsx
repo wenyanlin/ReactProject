@@ -1,10 +1,13 @@
-import { NewsCard } from '@org/news';
+import { NewsList, CategoryTabs } from '@org/news';
+import { useParams } from 'react-router-dom';
 
 export function HomePage() {
+  const { categoryId } = useParams<{ categoryId: string }>();
+
   return (
-    <div>
-      <h1>HomePage</h1>
-      <NewsCard />
+    <div className="flex flex-col gap-2">
+      <CategoryTabs categoryId={categoryId} />
+      <NewsList categoryId={categoryId} />
     </div>
   );
 }

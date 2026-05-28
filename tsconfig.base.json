@@ -17,5 +17,12 @@
     "strict": true,
     "target": "es2022",
     "customConditions": ["@org/source"],
+    "paths": {
+      "@org/shared-ui": ["./libs/shared/ui/src"],
+      "@org/comment": ["./libs/comment/src"],
+      "@org/news": ["./libs/news/src"],
+      "@org/auth": ["./libs/auth/src"],
+      "@org/pages/react-project": ["./libs/pages/react-project/src"]
+    }
   }
 }

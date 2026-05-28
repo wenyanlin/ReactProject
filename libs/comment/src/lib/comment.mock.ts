@@ -1,6 +1,6 @@
 export interface Comment {
   id: string;
-  articleId: string;
+  newsId: string;
   author: string;
   publishTime: string;
   content: string;
@@ -12,7 +12,7 @@ export interface Comment {
 export const mockComments: Comment[] = [
   {
     id: 'cm1',
-    articleId: 'a1',
+    newsId: 'a1',
     author: '阿蠅',
     publishTime: '2026-04-28T08:26:00Z',
     content: '現今的房價給我打5折以下才是真正有幫助的',
@@ -21,7 +21,7 @@ export const mockComments: Comment[] = [
     replies: [
       {
         id: 'r1',
-        articleId: 'a1',
+        newsId: 'a1',
         author: '冠瑋',
         publishTime: '2026-04-28T08:30:00Z',
         content:
@@ -33,7 +33,7 @@ export const mockComments: Comment[] = [
   },
   {
     id: 'cm2',
-    articleId: 'a1',
+    newsId: 'a1',
     author: 'a',
     publishTime: '2026-04-28T08:45:00Z',
     content: '全都一些廢的制度 三粒 請經歌功頌德!!',
@@ -42,7 +42,7 @@ export const mockComments: Comment[] = [
   },
   {
     id: 'cm3',
-    articleId: 'a1',
+    newsId: 'a1',
     author: '羽羽羽',
     publishTime: '2026-04-28T09:10:00Z',
     content:
@@ -52,7 +52,7 @@ export const mockComments: Comment[] = [
   },
   {
     id: 'cm4',
-    articleId: 'a1',
+    newsId: 'a1',
     author: 'Hung cheng wen',
     publishTime: '2026-04-28T09:25:00Z',
     content: '有夢最美，這個症腐怎麼可能得罪金主。',
