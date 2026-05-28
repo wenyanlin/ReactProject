@@ -1,0 +1,8 @@
+{
+  "name": "@org/react-project",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "projectType": "application"
+  }
+}

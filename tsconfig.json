@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/react-project"
+    },
+    {
+      "path": "./libs/auth"
+    },
+    {
+      "path": "./libs/news"
+    },
+    {
+      "path": "./libs/comment"
+    },
+    {
+      "path": "./libs/pages/react-project"
+    }
+  ]
+}
