@@ -1,4 +1,6 @@
-export const mockCategories: Category[] = [
+import { Category, NewsItem, NewsDetail } from './NewsTypes';
+
+export const CATEGORIES: Category[] = [
   { id: 'c1', name: '焦點' },
   { id: 'c2', name: '推薦' },
   { id: 'c3', name: '娛樂' },
@@ -13,7 +15,7 @@ export const mockCategories: Category[] = [
   { id: 'c12', name: '運動' },
 ];
 
-export const mockNews: NewsItem[] = [
+export const NEWS: NewsItem[] = [
   {
     id: 'a1',
     categoryId: 'c6', // 生活
@@ -22,7 +24,7 @@ export const mockNews: NewsItem[] = [
     publishTime: '2026-04-28T08:00:00Z',
     updateTime: '2026-04-29T10:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=1',
-    commentCount: 38,
+    commentCount: 5,
   },
   {
     id: 'a2',
@@ -32,7 +34,7 @@ export const mockNews: NewsItem[] = [
     publishTime: '2026-04-28T09:15:00Z',
     updateTime: '2026-04-29T11:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=2',
-    commentCount: 120,
+    commentCount: 4,
   },
   {
     id: 'a3',
@@ -41,7 +43,7 @@ export const mockNews: NewsItem[] = [
     publisher: '聯合新聞網',
     publishTime: '2026-04-28T10:30:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=3',
-    commentCount: 45,
+    commentCount: 3,
   },
   {
     id: 'a4',
@@ -50,7 +52,7 @@ export const mockNews: NewsItem[] = [
     publisher: '設計家',
     publishTime: '2026-04-27T14:20:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=4',
-    commentCount: 8,
+    commentCount: 2,
   },
   {
     id: 'a5',
@@ -59,7 +61,7 @@ export const mockNews: NewsItem[] = [
     publisher: '週刊',
     publishTime: '2026-04-27T16:45:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=5',
-    commentCount: 210,
+    commentCount: 3,
   },
   {
     id: 'a6',
@@ -68,7 +70,7 @@ export const mockNews: NewsItem[] = [
     publisher: '三立新聞網',
     publishTime: '2026-04-27T11:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=6',
-    commentCount: 56,
+    commentCount: 2,
   },
   {
     id: 'a7',
@@ -77,7 +79,7 @@ export const mockNews: NewsItem[] = [
     publisher: 'TVBS',
     publishTime: '2026-04-26T18:30:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=7',
-    commentCount: 312,
+    commentCount: 4,
   },
   {
     id: 'a8',
@@ -86,7 +88,7 @@ export const mockNews: NewsItem[] = [
     publisher: 'TVBS',
     publishTime: '2026-04-26T20:15:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=8',
-    commentCount: 89,
+    commentCount: 3,
   },
   {
     id: 'a9',
@@ -95,7 +97,7 @@ export const mockNews: NewsItem[] = [
     publisher: '電子',
     publishTime: '2026-04-25T09:40:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=9',
-    commentCount: 150,
+    commentCount: 3,
   },
   {
     id: 'a10',
@@ -104,7 +106,7 @@ export const mockNews: NewsItem[] = [
     publisher: '影視評論家',
     publishTime: '2026-04-28T12:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=10',
-    commentCount: 450,
+    commentCount: 4,
   },
   {
     id: 'a11',
@@ -113,7 +115,7 @@ export const mockNews: NewsItem[] = [
     publisher: '體育報',
     publishTime: '2026-04-28T07:30:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=11',
-    commentCount: 88,
+    commentCount: 2,
   },
   {
     id: 'a12',
@@ -122,7 +124,7 @@ export const mockNews: NewsItem[] = [
     publisher: '娛樂週刊',
     publishTime: '2026-04-27T10:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=12',
-    commentCount: 230,
+    commentCount: 3,
   },
   {
     id: 'a13',
@@ -131,7 +133,7 @@ export const mockNews: NewsItem[] = [
     publisher: '音樂地圖',
     publishTime: '2026-04-26T15:20:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=13',
-    commentCount: 156,
+    commentCount: 2,
   },
   {
     id: 'a14',
@@ -140,7 +142,7 @@ export const mockNews: NewsItem[] = [
     publisher: '星聞網',
     publishTime: '2026-04-28T14:45:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=14',
-    commentCount: 1200,
+    commentCount: 4,
   },
   {
     id: 'a15',
@@ -149,7 +151,7 @@ export const mockNews: NewsItem[] = [
     publisher: '財經日報',
     publishTime: '2026-04-27T09:10:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=15',
-    commentCount: 42,
+    commentCount: 2,
   },
   {
     id: 'a16',
@@ -158,7 +160,7 @@ export const mockNews: NewsItem[] = [
     publisher: '運動時報',
     publishTime: '2026-04-26T21:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=16',
-    commentCount: 205,
+    commentCount: 3,
   },
   {
     id: 'a17',
@@ -167,7 +169,7 @@ export const mockNews: NewsItem[] = [
     publisher: '旅遊玩家',
     publishTime: '2026-04-25T11:30:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=17',
-    commentCount: 77,
+    commentCount: 2,
   },
   {
     id: 'a18',
@@ -176,7 +178,7 @@ export const mockNews: NewsItem[] = [
     publisher: '電影神搜',
     publishTime: '2026-04-28T16:20:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=18',
-    commentCount: 310,
+    commentCount: 3,
   },
   {
     id: 'a19',
@@ -185,7 +187,7 @@ export const mockNews: NewsItem[] = [
     publisher: '劇評人',
     publishTime: '2026-04-27T18:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=19',
-    commentCount: 145,
+    commentCount: 2,
   },
   {
     id: 'a20',
@@ -194,13 +196,13 @@ export const mockNews: NewsItem[] = [
     publisher: '政治評論',
     publishTime: '2026-04-28T06:00:00Z',
     imageUrl: 'https://picsum.photos/768/432?random=20',
-    commentCount: 890,
+    commentCount: 4,
   },
 ];
 
-export const mockNewsDetails: NewsDetail[] = [
+export const NEWSDETAILS: NewsDetail[] = [
   {
-    ...mockNews[0], // a1
+    ...NEWS[0], // a1
     content: `
       <p>今年8月起，許多新制即將上路，與民眾荷包息息相關！其中最受矚目的就是育兒津貼的加碼，以及健保擴大給付範圍。</p>
       <br />
@@ -213,7 +215,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['育兒津貼', '健保', '新制懶人包', '生活補助'],
   },
   {
-    ...mockNews[1], // a2
+    ...NEWS[1], // a2
     content: `
       <p>法國政府今日正式宣布，由於疫情穩定受控，將於本月底終結長達兩年的衛生緊急狀態，民眾生活將全面恢復正常。</p>
       <br />
@@ -224,7 +226,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['法國', '緊急狀態', '後疫情', '國際新聞'],
   },
   {
-    ...mockNews[2], // a3
+    ...NEWS[2], // a3
     content: `
       <p>詐騙手法層出不窮！一名縱橫股市三十年的資深股民，近期落入新型投資詐騙陷阱，被騙走高達四千萬元台幣。</p>
       <br />
@@ -235,7 +237,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['詐騙', '股市', '投資風險', '社會新聞'],
   },
   {
-    ...mockNews[3], // a4
+    ...NEWS[3], // a4
     content: `
       <p>網購熱潮下，精美的商品照片往往讓人心動，但實測結果可能令人心碎。本報實測 6 款網路上熱銷的廚房神器，結果卻驚人大翻車。</p>
       <br />
@@ -246,7 +248,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['網購', '廚房用品', '實測', '消費情報'],
   },
   {
-    ...mockNews[4], // a5
+    ...NEWS[4], // a5
     content: `
       <p>影壇天后近日喜事連連，不僅剛拿下國際影展大獎，據傳下一部大製作電影的男主角已經敲定，是一位從未合作過的實力派男星。</p>
       <br />
@@ -257,7 +259,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['娛樂圈', '天后', '電影製作', '八卦新聞'],
   },
   {
-    ...mockNews[5], // a6
+    ...NEWS[5], // a6
     content: `
       <p>育兒津貼今天正式加碼！原本每月的 3,500 元直接跳升至 5,000 元，家長們今天刷存摺就可以看到入帳。但除了錢變多，還有哪些細節要注意？</p>
       <br />
@@ -268,7 +270,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['育兒津貼', '補助金', '生活政策', '育兒必看'],
   },
   {
-    ...mockNews[6], // a7
+    ...NEWS[6], // a7
     content: `
       <p>一名男網友在論壇分享自己被相親對象嫌棄的經歷，對方開出的 3 個條件讓他大呼「配不上惹不起」，引發網路熱烈討論。</p>
       <br />
@@ -279,7 +281,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['相親', '價值觀', '網路熱議', '兩性關係'],
   },
   {
-    ...mockNews[7], // a8
+    ...NEWS[7], // a8
     content: `
       <p>一名女網友在男友車上的置物箱發現一張神祕的「小藍卡」，原本只是好奇上網詢問功能，沒想到留言區的真相讓她心碎。</p>
       <br />
@@ -290,7 +292,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['社群爆料', '信任危機', '網路熱議', '感情糾紛'],
   },
   {
-    ...mockNews[8], // a9
+    ...NEWS[8], // a9
     content: `
       <p>本報獨家報導！某社區發生租屋糾紛，房客不僅積欠半年房租不繳，房東在強制執行入內後，竟發現屋內養了高達 50 隻名貴犬隻。</p>
       <br />
@@ -301,7 +303,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['獨家報導', '動保', '租屋糾紛', '社會焦點'],
   },
   {
-    ...mockNews[9], // a10
+    ...NEWS[9], // a10
     content: `
       <p>2026年最強黑馬電影出現了！這部低成本製作的科幻驚悚片，在首映禮結束後，全場觀眾起立鼓掌長達 10 分鐘。</p>
       <br />
@@ -312,7 +314,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['電影推薦', '黑馬大作', '影評', '年度必看'],
   },
   {
-    ...mockNews[10], // a11
+    ...NEWS[10], // a11
     content: `
       <p>2026年 NBA 季後賽首輪正式開打，衛冕軍在主場迎戰黑馬球隊，卻在第四節慘遭逆轉。</p>
       <br />
@@ -323,7 +325,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['NBA', '季後賽', '籃球', '體育新聞'],
   },
   {
-    ...mockNews[11], // a12
+    ...NEWS[11], // a12
     content: `
       <p>曾執導現象級韓劇《黑暗榮耀》的知名導演，近期傳出已著手開發新劇本，且有望與宋慧喬再次聯手。</p>
       <br />
@@ -334,7 +336,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['宋慧喬', '黑暗榮耀', '韓劇', '娛樂快訊'],
   },
   {
-    ...mockNews[12], // a13
+    ...NEWS[12], // a13
     content: `
       <p>第 37 屆金曲獎入圍名單於今日正式揭曉。今年競爭異常激烈，其中一位年僅 20 歲的新銳歌手橫掃多項大獎入圍，成為最大贏家。</p>
       <br />
@@ -345,7 +347,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['金曲獎', '音樂', '入圍名單', '藝文快訊'],
   },
   {
-    ...mockNews[13], // a14
+    ...NEWS[13], // a14
     content: `
       <p>演藝圈今日傳出震撼彈，被公稱為模範夫妻的兩人，在共同發布的聲明中宣布結束十年婚姻。</p>
       <br />
@@ -356,7 +358,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['演藝圈', '離婚', '震撼彈', '模範夫妻'],
   },
   {
-    ...mockNews[14], // a15
+    ...NEWS[14], // a15
     content: `
       <p>北京國際車展今日盛大開幕，純電動車無疑是全場焦點。其中一款概念跑車標榜單次充電續航力可突破 1,000 公里，震驚業界。</p>
       <br />
@@ -367,7 +369,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['車展', '電動車', '科技新知', '財經產業'],
   },
   {
-    ...mockNews[15], // a16
+    ...NEWS[15], // a16
     content: `
       <p>中華職棒大巨蛋首戰寫下歷史！今日吸引滿場 4 萬名球迷進場觀賽，氣氛High到最高點。</p>
       <br />
@@ -378,7 +380,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['中職', '台北大巨蛋', '棒球', '熱血體育'],
   },
   {
-    ...mockNews[16], // a17
+    ...NEWS[16], // a17
     content: `
       <p>週末假期即將到來，還在煩惱要去哪裡玩嗎？本報特別整理全台 5 大賞花秘境，讓你不用人擠人也能拍出大片。</p>
       <br />
@@ -389,7 +391,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['週末旅遊', '賞花秘境', '全台景點', '生活旅遊'],
   },
   {
-    ...mockNews[17], // a18
+    ...NEWS[17], // a18
     content: `
       <p>漫威電影宇宙（MCU）又有新動作！據悉一位奧斯卡級別的傳奇影星已秘密加盟下一階段的新作。</p>
       <br />
@@ -400,7 +402,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['漫威', '超級英雄', '電影快訊', '影視情報'],
   },
   {
-    ...mockNews[18], // a19
+    ...NEWS[18], // a19
     content: `
       <p>Netflix 公布 5 月份最新上架片單，多部人氣韓劇與好萊塢原創影集即將重磅回歸。</p>
       <br />
@@ -411,7 +413,7 @@ export const mockNewsDetails: NewsDetail[] = [
     tags: ['Netflix', '片單推薦', '韓劇', '居家娛樂'],
   },
   {
-    ...mockNews[19], // a20
+    ...NEWS[19], // a20
     content: `
       <p>隨著 2026 年地方大選逼近，各政黨候選人紛紛出招，最新的民調數據顯示戰況異常膠著。</p>
       <br />
@@ -420,57 +422,5 @@ export const mockNewsDetails: NewsDetail[] = [
       <p>未來幾週的政策白皮書發布，預計將對民調產生進一步影響。</p>
     `,
     tags: ['2026大選', '民調', '政治', '選戰'],
-  },
-];
-
-export const mockComments: Comment[] = [
-  {
-    id: 'cm1',
-    articleId: 'a1',
-    author: '阿蠅',
-    publishTime: '2026-04-28T08:26:00Z',
-    content: '現今的房價給我打5折以下才是真正有幫助的',
-    likes: 59,
-    dislikes: 2,
-    replies: [
-      {
-        id: 'r1',
-        articleId: 'a1',
-        author: '冠瑋',
-        publishTime: '2026-04-28T08:30:00Z',
-        content:
-          '哪個執政可以做到，拜託樓主指點迷津，我也要投他~因為連對岸所「共產」，房子也是要自己買，責的離譜耶!!不知道樓主這個超優質政策是從哪個國家借鏡的~想知道><',
-        likes: 0,
-        dislikes: 0,
-      },
-    ],
-  },
-  {
-    id: 'cm2',
-    articleId: 'a1',
-    author: 'a',
-    publishTime: '2026-04-28T08:45:00Z',
-    content: '全都一些廢的制度 三粒 請經歌功頌德!!',
-    likes: 3,
-    dislikes: 0,
-  },
-  {
-    id: 'cm3',
-    articleId: 'a1',
-    author: '羽羽羽',
-    publishTime: '2026-04-28T09:10:00Z',
-    content:
-      '房價高是惡性循環，誰的問題？你五折 了500萬的房子你會500萬賣掉嗎？',
-    likes: 18,
-    dislikes: 1,
-  },
-  {
-    id: 'cm4',
-    articleId: 'a1',
-    author: 'Hung cheng wen',
-    publishTime: '2026-04-28T09:25:00Z',
-    content: '有夢最美，這個症腐怎麼可能得罪金主。',
-    likes: 91,
-    dislikes: 38,
   },
 ];

@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { mockUser } from './auth.mock';
+import { USER } from './auth.mock';
 import { User } from './AuthTypes';
 
 type AuthContextValue = {
   user: User | null;
-  login: (user: User) => void;
+  login: (username: string) => boolean;
   logout: () => void;
 };
 
@@ -15,9 +15,16 @@ type AuthProviderProps = {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(mockUser);
+  const [user, setUser] = useState<User | null>(null);
 
-  const login = (user: User) => setUser(user);
+  const login = (username: string): boolean => {
+    const matchedUser = USER.find((user) => user.name === username);
+    if (matchedUser) {
+      setUser(matchedUser);
+      return true;
+    }
+    return false;
+  };
   const logout = () => setUser(null);
 
   const contextValue: AuthContextValue = {

@@ -1,1 +1,1 @@
-export * from './lib/AppHeader';
+export { PageLoading } from './lib/LoadingSpinner';

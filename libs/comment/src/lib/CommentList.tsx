@@ -1,22 +1,29 @@
-import { useComments } from './useComments';
+import type { Comment } from './CommentTypes';
+import { CommentItem } from './CommentItem';
 
 type CommentListProps = {
-  newsId: string;
+  comments: Comment[];
+  onDelete: (commentId: string) => void;
+  onLike: (id: string, isLike: boolean) => void;
+  onDislike: (id: string, isDislike: boolean) => void;
 };
 
-/**
- * TODO: 元件需增加互動功能，尚未做完
- */
-export function CommentList({ newsId }: CommentListProps) {
-  const comments = useComments(newsId);
-
+export function CommentList({
+  comments,
+  onDelete,
+  onLike,
+  onDislike,
+}: CommentListProps) {
   return (
-    <div>
-      {comments.map((c) => (
-        <div key={c.id}>
-          <div>{c.author}</div>
-          <div>{c.content}</div>
-        </div>
+    <div className="divide-y divide-slate-100/50">
+      {comments.map((comment) => (
+        <CommentItem
+          key={comment.id}
+          comment={comment}
+          onLike={onLike}
+          onDislike={onDislike}
+          onDelete={onDelete}
+        />
       ))}
     </div>
   );

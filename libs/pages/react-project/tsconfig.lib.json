@@ -31,16 +31,13 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
-      "path": "../../auth/tsconfig.lib.json"
-    },
-    {
       "path": "../../comment/tsconfig.lib.json"
     },
     {
-      "path": "../../news/tsconfig.lib.json"
+      "path": "../../auth/tsconfig.lib.json"
     },
     {
-      "path": "../../shared/ui/tsconfig.lib.json"
+      "path": "../../news/tsconfig.lib.json"
     }
   ]
 }

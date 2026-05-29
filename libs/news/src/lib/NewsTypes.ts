@@ -23,16 +23,3 @@ export interface NewsDetail extends NewsItem {
   content: string; // 文章的 HTML 結構
   tags: string[]; // 例如：["育兒津貼", "健保"]
 }
-
-// 4. 留言
-// 畫面需要：留言者名字、時間、內容、讚數、倒讚數，以及回覆。
-export interface Comment {
-  id: string;
-  articleId: string;
-  author: string;
-  publishTime: string;
-  content: string;
-  likes: number;
-  dislikes: number;
-  replies?: Comment[]; // 回覆中的回覆 (可選欄位)
-}

@@ -1,24 +1,29 @@
 import { Link } from 'react-router-dom';
 import { NewsCard } from './NewsCard';
 import { useNewsList } from './useNews';
+import { PageLoading } from '@org/shared-ui';
+import { useParams } from 'react-router-dom';
 
-type NewsListProps = {
-  categoryId: string;
-};
+export function NewsList() {
+  const { categoryId } = useParams<{ categoryId: string }>();
+  const news = useNewsList(categoryId || '');
 
-/**
- * ?: 這算什麼樣的元件
- */
-export function NewsList({ categoryId }: NewsListProps) {
-  const news = useNewsList(categoryId);
+  if (news === undefined) {
+    return <PageLoading />;
+  }
 
-  if (!Array.isArray(news) || news.length === 0)
-    return <div>暫時沒有文章唷！</div>;
+  if (!Array.isArray(news) || news.length === 0) {
+    return (
+      <div className="text-center py-16 px-4 bg-white shrink-0 select-none text-xs font-semibold text-slate-400">
+        該分類目前沒有任何新聞文章喔！
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="bg-white flex flex-col divide-y divide-slate-100 shrink-0">
       {news.map((n) => (
-        <Link to={`/news/${n.id}`} key={n.id} className="flex flex-col gap-2">
+        <Link to={`/news/${n.id}`} key={n.id} className="block">
           <NewsCard newsItem={n} />
         </Link>
       ))}

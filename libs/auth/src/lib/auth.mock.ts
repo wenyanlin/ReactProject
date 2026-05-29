@@ -1,1 +1,1 @@
-export const mockUser = { id: '1', name: 'Test User' };
+export const USER = [{ id: '1', name: 'Test' }];
